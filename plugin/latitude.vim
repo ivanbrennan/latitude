@@ -3,7 +3,13 @@ if exists("g:loaded_latitude")
 endif
 let g:loaded_latitude = 1
 
-let s:default_offset = 6
+nnoremap <silent> <Plug>(latitude) :Latitude<CR>
+command! -nargs=? Latitude call <SID>nudge(<f-args>)
 
-nnoremap <silent> <Plug>(latitude_nudge)
-\ :call latitude#nudge( get(g:, 'latitude_offset', s:default_offset) )<CR>
+func! s:nudge(...)
+  call latitude#nudge( a:0 ? a:1 : s:default_offset() )
+endf
+
+func! s:default_offset()
+  return get(g:, 'latitude_offset', 6)
+endf
